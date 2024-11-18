@@ -29,7 +29,7 @@ class Child1 extends Component {
     const innerWidth = width - margin.left - margin.right;
     const innerHeight = height - margin.top - margin.bottom;
     var test = new Date("2024-12-02");
-    console.log(test.getMonth())
+    //console.log(test.getMonth())
 
     var data = this.props.csv_data.filter(d => (d.Company ==this.state.company && months[d.Date.getMonth()]==this.state.selectedMonth));
 
@@ -40,7 +40,7 @@ class Child1 extends Component {
 
     var y_max = (close_max>open_max) ? close_max : open_max
 
-    console.log(y_max)
+    //console.log(y_max)
 
     const yScale = d3.scaleLinear().domain([0, 10]).range([innerHeight, 0]);
 
@@ -48,16 +48,45 @@ class Child1 extends Component {
 
   }
 
+  handleButtonChange = (event) => {
+    this.setState({
+      company : event.target.value
+    })
+    //console.log(this.state.company)
+  }
+
   render() {
     const options = ['Apple', 'Microsoft', 'Amazon', 'Google', 'Meta']; // Use this data to create radio button
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; // Use this data to create dropdown
 
     return (
+      <div>
+
       <div className="child1">
-          
+        
+        <div className="Buttons">
+        <input type="radio" value="Apple" name="Company" onChange={this.handleButtonChange}/> Apple
+        <input type="radio" value="Microsoft" name="Company" onChange={this.handleButtonChange}/> Microsoft
+        <input type="radio" value="Amazon" name="Company" onChange={this.handleButtonChange}/> Amazon
+        <input type="radio" value="Google" name="Company" onChange={this.handleButtonChange}/> Google
+        <input type="radio" value="Meta" name="Company" onChange={this.handleButtonChange}/> Meta
+        </div>
+        <CurrentCompany></CurrentCompany>
+      </div>
       </div>
     );
   }
 }
 
+class CurrentCompany extends Component{
+  render(){
+    return(
+      <div>
+      
+      </div>
+    )
+  }
+}
+
 export default Child1;
+
