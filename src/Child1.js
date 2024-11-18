@@ -71,22 +71,13 @@ class Child1 extends Component {
         <input type="radio" value="Google" name="Company" onChange={this.handleButtonChange}/> Google
         <input type="radio" value="Meta" name="Company" onChange={this.handleButtonChange}/> Meta
         </div>
-        <CurrentCompany></CurrentCompany>
+        {this.state.company}
       </div>
       </div>
     );
   }
 }
 
-class CurrentCompany extends Component{
-  render(){
-    return(
-      <div>
-      
-      </div>
-    )
-  }
-}
 
 export default Child1;
 
