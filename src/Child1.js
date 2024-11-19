@@ -26,7 +26,7 @@ class Child1 extends Component {
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; // Use this data to create dropdown
 
     const margin = { top: 70, right: 60, bottom: 50, left: 80 };
-    const width = 1000;
+    const width = 600;
     const height = 400;
 
     const innerWidth = width - margin.left - margin.right;
@@ -60,7 +60,7 @@ class Child1 extends Component {
 
     console.log(data)
 
-    svg.selectAll(".x-axis").data([null]).join("g").attr("class", "x-axis").attr("transform", `translate(0,${innerHeight})`).call(d3.axisBottom(xScale));
+    svg.selectAll(".x-axis").data([null]).join("g").attr("class", "x-axis").attr("transform", `translate(0,${innerHeight})`).call(d3.axisBottom(xScale)).selectAll('text').attr("transform",'rotate(45)').attr("dy",'10').attr('text-anchor','start');
     svg.selectAll(".y-axis").data([null]).join("g").attr("class", "y-axis").attr("transform", `translate(0,0)`).call(d3.axisLeft(yScale).tickFormat(d => isNaN(d) ? "" : `$${d.toFixed(2)}`));
     
 
@@ -123,7 +123,7 @@ class Child1 extends Component {
 
         <div className="chart-container">
 
-        <svg className="mySvg" width={1000} height={400}>
+        <svg className="mySvg" width={600} height={400}>
 
           <g></g>
 
