@@ -55,6 +55,12 @@ class Child1 extends Component {
     //console.log(this.state.company)
   }
 
+  handleDropDownChange = (event) =>{
+    this.setState({
+      selectedMonth : event.target.value
+    })
+  }
+
   render() {
     const options = ['Apple', 'Microsoft', 'Amazon', 'Google', 'Meta']; // Use this data to create radio button
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; // Use this data to create dropdown
@@ -64,14 +70,32 @@ class Child1 extends Component {
 
       <div className="child1">
         
-        <div className="Buttons">
+        <div className="buttons">
         <input type="radio" value="Apple" name="Company" onChange={this.handleButtonChange}/> Apple
         <input type="radio" value="Microsoft" name="Company" onChange={this.handleButtonChange}/> Microsoft
         <input type="radio" value="Amazon" name="Company" onChange={this.handleButtonChange}/> Amazon
         <input type="radio" value="Google" name="Company" onChange={this.handleButtonChange}/> Google
         <input type="radio" value="Meta" name="Company" onChange={this.handleButtonChange}/> Meta
         </div>
+        <div className="dropdown" onChange={this.handleDropDownChange}>
+          <select>
+            <option value="January">January</option>
+            <option value="February">February</option>
+            <option value="March">March</option>
+            <option value="April">January</option>
+            <option value="May">May</option>
+            <option value="June">June</option>
+            <option value="July">July</option>
+            <option value="August">August</option>
+            <option value="September">September</option>
+            <option value="October">October</option>
+            <option value="November">November</option>
+            <option value="December">December</option>
+          </select>
+        </div>
         {this.state.company}
+        <br></br>
+        {this.state.selectedMonth}
       </div>
       </div>
     );
