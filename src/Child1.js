@@ -14,6 +14,8 @@ class Child1 extends Component {
     var data = this.props.csv_data;
     console.log(data)
 
+    this.forceUpdate()
+
   }
 
   componentDidUpdate() {
@@ -29,7 +31,7 @@ class Child1 extends Component {
 
     const innerWidth = width - margin.left - margin.right;
     const innerHeight = height - margin.top - margin.bottom;
-    var test = new Date("2024-12-02");
+   //var test = new Date("2024-12-02");
     //console.log(test.getMonth())
 
     var data = this.props.csv_data.filter(d => (d.Company ==this.state.company && months[d.Date.getMonth()]==this.state.selectedMonth));
@@ -43,10 +45,20 @@ class Child1 extends Component {
 
     //console.log(y_max)
 
-    const yScale = d3.scaleLinear().domain([0, 10]).range([innerHeight, 0]);
+    const yScale = d3.scaleLinear().domain([0, y_max]).range([innerHeight, 0]);
+
+    const svg = d3.select(".chart-container").select("svg")
+            .attr("width", width) // Use width for parent SVG
+            .attr("height", height) // Use height for parent SVG
+            .select("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
 
     console.log(data)
 
+    svg.selectAll(".x-axis").data([null]).join("g").attr("class", "x-axis").attr("transform", `translate(0,${innerHeight})`).call(d3.axisBottom(xScale));
+    svg.selectAll(".y-axis").data([null]).join("g").attr("class", "y-axis").attr("transform", `translate(0,0)`).call(d3.axisLeft(yScale).tickFormat(d => isNaN(d) ? "" : `$${d.toFixed(2)}`));
+  
+  
   }
 
   handleButtonChange = (event) => {
@@ -67,7 +79,6 @@ class Child1 extends Component {
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; // Use this data to create dropdown
 
     return (
-      <div>
 
       <div className="child1">
         
@@ -78,8 +89,9 @@ class Child1 extends Component {
         <input type="radio" value="Google" name="Company" onChange={this.handleButtonChange}/> Google
         <input type="radio" value="Meta" name="Company" onChange={this.handleButtonChange}/> Meta
         </div>
-        <div className="dropdown" onChange={this.handleDropDownChange}>
-          <select>
+
+        <div className="dropdown" >
+          <select onChange={this.handleDropDownChange} defaultValue={"November"}>
             <option value="January">January</option>
             <option value="February">February</option>
             <option value="March">March</option>
@@ -94,7 +106,17 @@ class Child1 extends Component {
             <option value="December">December</option>
           </select>
         </div>
-      </div>
+
+        <div className="chart-container">
+
+        <svg className="mySvg" width={1000} height={400}>
+
+          <g></g>
+
+        </svg>
+
+        </div>
+
       </div>
     );
   }
