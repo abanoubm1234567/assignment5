@@ -43,9 +43,14 @@ class Child1 extends Component {
 
     var y_max = (close_max>open_max) ? close_max : open_max
 
+    var close_min = d3.min(data, (d) => d.Close)
+    var open_min = d3.min(data, (d) => d.Open)
+
+    var y_min = (close_min<open_min) ? close_min : open_min
+
     //console.log(y_max)
 
-    const yScale = d3.scaleLinear().domain([0, y_max]).range([innerHeight, 0]);
+    const yScale = d3.scaleLinear().domain([y_min, y_max]).range([innerHeight, 0]);
 
     const svg = d3.select(".chart-container").select("svg")
             .attr("width", width) // Use width for parent SVG
@@ -57,8 +62,17 @@ class Child1 extends Component {
 
     svg.selectAll(".x-axis").data([null]).join("g").attr("class", "x-axis").attr("transform", `translate(0,${innerHeight})`).call(d3.axisBottom(xScale));
     svg.selectAll(".y-axis").data([null]).join("g").attr("class", "y-axis").attr("transform", `translate(0,0)`).call(d3.axisLeft(yScale).tickFormat(d => isNaN(d) ? "" : `$${d.toFixed(2)}`));
+    
+
+    var closeLineGenerator = d3.line().curve(d3.curveCardinal).x(d=>xScale(d.Date)).y(d=>yScale(d.Close))
+    var closePathData = closeLineGenerator(data)
+
+    svg.selectAll('.close').data([data]).join('path').attr('class','close').attr('d',closePathData).style('stroke','#e41a1c').style('fill','none').style('stroke-width','2')
   
-  
+    var openLineGenerator = d3.line().curve(d3.curveCardinal).x(d=>xScale(d.Date)).y(d=>yScale(d.Open))
+    var openPathData = openLineGenerator(data)
+
+    svg.selectAll('.open').data([data]).join('path').attr('class','open').attr('d',openPathData).style('stroke','#b2df8a').style('fill','none').style('stroke-width','2')
   }
 
   handleButtonChange = (event) => {
