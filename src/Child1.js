@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import * as d3 from "d3";
+import './Child1.css'
 
 class Child1 extends Component {
   state = { 
@@ -71,7 +72,7 @@ class Child1 extends Component {
       <div className="child1">
         
         <div className="buttons">
-        <input type="radio" value="Apple" name="Company" onChange={this.handleButtonChange}/> Apple
+        <input type="radio" value="Apple" name="Company" onChange={this.handleButtonChange} defaultChecked/> Apple
         <input type="radio" value="Microsoft" name="Company" onChange={this.handleButtonChange}/> Microsoft
         <input type="radio" value="Amazon" name="Company" onChange={this.handleButtonChange}/> Amazon
         <input type="radio" value="Google" name="Company" onChange={this.handleButtonChange}/> Google
@@ -82,7 +83,7 @@ class Child1 extends Component {
             <option value="January">January</option>
             <option value="February">February</option>
             <option value="March">March</option>
-            <option value="April">January</option>
+            <option value="April">April</option>
             <option value="May">May</option>
             <option value="June">June</option>
             <option value="July">July</option>
@@ -93,9 +94,6 @@ class Child1 extends Component {
             <option value="December">December</option>
           </select>
         </div>
-        {this.state.company}
-        <br></br>
-        {this.state.selectedMonth}
       </div>
       </div>
     );
