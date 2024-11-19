@@ -64,15 +64,20 @@ class Child1 extends Component {
     svg.selectAll(".y-axis").data([null]).join("g").attr("class", "y-axis").attr("transform", `translate(0,0)`).call(d3.axisLeft(yScale).tickFormat(d => isNaN(d) ? "" : `$${d.toFixed(2)}`));
     
 
-    var closeLineGenerator = d3.line().curve(d3.curveCardinal).x(d=>xScale(d.Date)).y(d=>yScale(d.Close))
+    var closeLineGenerator = d3.line().curve(d3.curveCatmullRom).x(d=>xScale(d.Date)).y(d=>yScale(d.Close))
     var closePathData = closeLineGenerator(data)
 
     svg.selectAll('.close').data([data]).join('path').attr('class','close').attr('d',closePathData).style('stroke','#e41a1c').style('fill','none').style('stroke-width','2')
   
-    var openLineGenerator = d3.line().curve(d3.curveCardinal).x(d=>xScale(d.Date)).y(d=>yScale(d.Open))
+    var openLineGenerator = d3.line().curve(d3.curveCatmullRom).x(d=>xScale(d.Date)).y(d=>yScale(d.Open))
     var openPathData = openLineGenerator(data)
 
     svg.selectAll('.open').data([data]).join('path').attr('class','open').attr('d',openPathData).style('stroke','#b2df8a').style('fill','none').style('stroke-width','2')
+
+    const legend = svg.select('.legend')
+
+    legend.selectAll('p').join('rect').attr('height',50).attr('width',50)
+
   }
 
   handleButtonChange = (event) => {
@@ -91,6 +96,7 @@ class Child1 extends Component {
   render() {
     const options = ['Apple', 'Microsoft', 'Amazon', 'Google', 'Meta']; // Use this data to create radio button
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; // Use this data to create dropdown
+
 
     return (
 
@@ -125,9 +131,25 @@ class Child1 extends Component {
 
         <svg className="mySvg" width={600} height={400}>
 
-          <g></g>
+          <g>
+            
+          </g>
 
         </svg>
+        <div className="legend">
+          <div className="legend1">
+            <svg width={15} height={15}>
+              <rect width={15} height={15} className="openRect"></rect>
+            </svg>
+            <p>Open</p>
+          </div>
+          <div className="legend1">
+            <svg width={15} height={15}>
+              <rect width={15} height={15} className="closeRect"></rect>
+            </svg>
+            <p>Close</p>
+          </div>
+        </div>
 
         </div>
 
