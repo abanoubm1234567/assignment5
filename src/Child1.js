@@ -61,8 +61,8 @@ class Child1 extends Component {
     const yScale = d3.scaleLinear().domain([y_min, y_max]).range([innerHeight, 0]);
 
     const svg = d3.select(".chart-container").select("svg")
-            .attr("width", width) // Use width for parent SVG
-            .attr("height", height) // Use height for parent SVG
+            .attr("width", width)
+            .attr("height", height)
             .select("g")
             .attr("transform", `translate(${margin.left},${margin.top})`);
 
@@ -82,8 +82,54 @@ class Child1 extends Component {
 
     svg.selectAll('.open').data([data]).join('path').attr('class','open').attr('d',openPathData).style('stroke','#b2df8a').style('fill','none').style('stroke-width','2')
 
-    svg.selectAll('.cCircle').data(data).join('circle').attr('class','cCircle').attr('cx',d=>xScale(d.Date)).attr('cy',d=>yScale(d.Close)).attr('r',3).attr('fill','#e41a1c')
-    svg.selectAll('.oCircle').data(data).join('circle').attr('class','oCircle').attr('cx',d=>xScale(d.Date)).attr('cy',d=>yScale(d.Open)).attr('r',3).attr('fill','#b2df8a')
+    const tooltip = d3.select('body').append('div')
+      .attr('class', 'tooltip')
+      .style('position', 'absolute')
+      .style('visibility', 'hidden')
+      .style('background-color', 'rgba(0, 0, 0, 0.7)')
+      .style('color', 'white')
+      .style('padding', '5px')
+      .style('border-radius', '4px')
+      .style('pointer-events', 'none');
+
+    const parseDate = d3.timeFormat('%m/%d/%Y')
+      
+    svg.selectAll('.cCircle')
+    .data(data)
+    .join('circle')
+    .attr('class','cCircle')
+    .attr('cx',d=>xScale(d.Date))
+    .attr('cy',d=>yScale(d.Close))
+    .attr('r',4)
+    .attr('fill','#e41a1c')
+    .on('mouseover', function(event, d) {
+      tooltip.style('visibility', 'visible').html(`Date: ${parseDate(d.Date)}<br>Open: ${d.Open}<br>Close: ${d.Close}<br>Absolute Difference: ${Math.abs(d.Close-d.Open).toFixed(2)}`);
+    })
+    .on('mousemove', function(event) {
+      tooltip.style('top', (event.pageY + 10) + 'px').style('left', (event.pageX + 10) + 'px');
+    })
+    .on('mouseout', function() {
+      tooltip.style('visibility', 'hidden');
+    });
+
+
+    svg.selectAll('.oCircle')
+    .data(data)
+    .join('circle')
+    .attr('class','oCircle')
+    .attr('cx',d=>xScale(d.Date))
+    .attr('cy',d=>yScale(d.Open))
+    .attr('r',4)
+    .attr('fill','#b2df8a')
+    .on('mouseover', function(event, d) {
+      tooltip.style('visibility', 'visible').html(`Date: ${parseDate(d.Date)}<br>Open: ${d.Open}<br>Close: ${d.Close}<br>Absolute Difference: ${Math.abs(d.Close-d.Open).toFixed(2)}`);
+    })
+    .on('mousemove', function(event) {
+      tooltip.style('top', (event.pageY + 10) + 'px').style('left', (event.pageX + 10) + 'px');
+    })
+    .on('mouseout', function() {
+      tooltip.style('visibility', 'hidden');
+    });
 
     const legend = svg.select('.legend')
 
