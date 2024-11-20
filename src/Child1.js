@@ -9,10 +9,10 @@ class Child1 extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props.csv_data) // Use this data as default. When the user will upload data this props will provide you the updated data
+    //console.log(this.props.csv_data) // Use this data as default. When the user will upload data this props will provide you the updated data
 
     var data = this.props.csv_data;
-    console.log(data)
+    //console.log(data)
 
     this.forceUpdate()
 
@@ -36,6 +36,14 @@ class Child1 extends Component {
 
     var data = this.props.csv_data.filter(d => (d.Company ==this.state.company && months[d.Date.getMonth()]==this.state.selectedMonth));
 
+    var circleData = [];
+
+    for (var i = 0 ;i<data.length;i+=2){
+      circleData.push(data[i])
+    }
+
+    //console.log('circle data: ',circleData)
+
     const xScale = d3.scaleTime().domain(d3.extent(data, (d) => d.Date)).range([0, innerWidth]);
 
     var close_max = d3.max(data, (d) => d.Close)
@@ -58,7 +66,7 @@ class Child1 extends Component {
             .select("g")
             .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    console.log(data)
+    //console.log(data)
 
     svg.selectAll(".x-axis").data([null]).join("g").attr("class", "x-axis").attr("transform", `translate(0,${innerHeight})`).call(d3.axisBottom(xScale)).selectAll('text').attr("transform",'rotate(45)').attr("dy",'10').attr('text-anchor','start');
     svg.selectAll(".y-axis").data([null]).join("g").attr("class", "y-axis").attr("transform", `translate(0,0)`).call(d3.axisLeft(yScale).tickFormat(d => isNaN(d) ? "" : `$${d.toFixed(2)}`));
@@ -73,6 +81,9 @@ class Child1 extends Component {
     var openPathData = openLineGenerator(data)
 
     svg.selectAll('.open').data([data]).join('path').attr('class','open').attr('d',openPathData).style('stroke','#b2df8a').style('fill','none').style('stroke-width','2')
+
+    svg.selectAll('.cCircle').data(data).join('circle').attr('class','cCircle').attr('cx',d=>xScale(d.Date)).attr('cy',d=>yScale(d.Close)).attr('r',3).attr('fill','#e41a1c')
+    svg.selectAll('.oCircle').data(data).join('circle').attr('class','oCircle').attr('cx',d=>xScale(d.Date)).attr('cy',d=>yScale(d.Open)).attr('r',3).attr('fill','#b2df8a')
 
     const legend = svg.select('.legend')
 
