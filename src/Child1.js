@@ -58,7 +58,7 @@ class Child1 extends Component {
 
     //console.log(y_max)
 
-    const yScale = d3.scaleLinear().domain([y_min, y_max]).range([innerHeight, 0]);
+    const yScale = d3.scaleLinear().domain([y_min-1, y_max+1]).range([innerHeight, 0]);
 
     const svg = d3.select(".chart-container").select("svg")
             .attr("width", width)
@@ -103,7 +103,7 @@ class Child1 extends Component {
     .attr('r',4)
     .attr('fill','#e41a1c')
     .on('mouseover', function(event, d) {
-      tooltip.style('visibility', 'visible').html(`Date: ${parseDate(d.Date)}<br>Open: ${d.Open}<br>Close: ${d.Close}<br>Absolute Difference: ${Math.abs(d.Close-d.Open).toFixed(2)}`);
+      tooltip.style('visibility', 'visible').html(`Date: ${parseDate(d.Date)}<br>Open: ${(d.Open).toFixed(2)}<br>Close: ${(d.Close).toFixed(2)}<br>Absolute Difference: ${Math.abs(d.Close-d.Open).toFixed(2)}`);
     })
     .on('mousemove', function(event) {
       tooltip.style('top', (event.pageY + 10) + 'px').style('left', (event.pageX + 10) + 'px');
@@ -122,7 +122,7 @@ class Child1 extends Component {
     .attr('r',4)
     .attr('fill','#b2df8a')
     .on('mouseover', function(event, d) {
-      tooltip.style('visibility', 'visible').html(`Date: ${parseDate(d.Date)}<br>Open: ${d.Open}<br>Close: ${d.Close}<br>Absolute Difference: ${Math.abs(d.Close-d.Open).toFixed(2)}`);
+      tooltip.style('visibility', 'visible').html(`Date: ${parseDate(d.Date)}<br>Open: ${(d.Open).toFixed(2)}<br>Close: ${(d.Close).toFixed(2)}<br>Absolute Difference: ${Math.abs(d.Close-d.Open).toFixed(2)}`);
     })
     .on('mousemove', function(event) {
       tooltip.style('top', (event.pageY + 10) + 'px').style('left', (event.pageX + 10) + 'px');
